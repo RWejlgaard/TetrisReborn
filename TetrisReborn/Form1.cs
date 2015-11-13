@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Windows.Forms;
 using TetrisReborn.Properties;
 
@@ -10,7 +11,7 @@ namespace TetrisReborn {
         private Shape _aShape;
         private int _bonusHeight;
         private IContainer components;
-        private ToolStripMenuItem _controlsToolStripMenuItem;
+        private ToolStripMenuItem _menuControls;
         private Panel _drawingAreaCanvas;
         private bool _dropBtnPressed;
         private int _dropRate;
@@ -47,18 +48,20 @@ namespace TetrisReborn {
         private bool _startBtnPressed;
         private Screen _startScreen;
         private SolidBrush[] _theBrushColors;
-
+        public static PrivateFontCollection Retrofont = new PrivateFontCollection();
         private int _totalRowsCompleted;
 
         public bool IsDropped { get; set; }
-
         public int BonusStep { get; set; }
 
         public Form1() {
             InitializeComponent();
 
             SetUpGame();
+            
+            
 
+            Retrofont.AddFontFile("C:\\Users\\Rasmus\\TetrisReborn\\TetrisReborn\\Retro.ttf");
             _aBtnClicked = false;
             var timer = new Timer {Interval = 300};
             timer.Tick += ClockTick;
@@ -67,7 +70,7 @@ namespace TetrisReborn {
             _gameTimer.Enabled = true;
             _gameTimer.Interval = _gameSpeed;
         }
-
+        
         private void ClockTick(object sender, EventArgs e) {
             _aBtnClicked = false;
         }
@@ -105,7 +108,7 @@ namespace TetrisReborn {
                             _isGamePaused = true;
                             var gpause = _startScreen.GetGraphics();
                             _startScreen.Erase();
-                            gpause.DrawString("Pause", new Font("Comic Sans", 18), new SolidBrush(Color.Red), 46, 100);
+                            gpause.DrawString("Pause", new Font(Retrofont.Families[0], 18), new SolidBrush(Color.White), 30, 100);
                             _startScreen.Flip();
                         }
                         else {
@@ -153,7 +156,7 @@ namespace TetrisReborn {
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            var resources = new System.ComponentModel.ComponentResourceManager(typeof (Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this._gameTimer = new System.Windows.Forms.Timer(this.components);
             this._lblScore = new System.Windows.Forms.Label();
             this._label1 = new System.Windows.Forms.Label();
@@ -164,7 +167,7 @@ namespace TetrisReborn {
             this._menuFile = new System.Windows.Forms.ToolStripMenuItem();
             this._menuNewGame = new System.Windows.Forms.ToolStripMenuItem();
             this._menuResetGrid = new System.Windows.Forms.ToolStripMenuItem();
-            this._controlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._menuControls = new System.Windows.Forms.ToolStripMenuItem();
             this._menuStrip1 = new System.Windows.Forms.MenuStrip();
             this._menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -176,7 +179,8 @@ namespace TetrisReborn {
             // _lblScore
             // 
             this._lblScore.AutoSize = true;
-            this._lblScore.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this._lblScore.BackColor = System.Drawing.SystemColors.MenuText;
+            this._lblScore.ForeColor = System.Drawing.SystemColors.Control;
             this._lblScore.Location = new System.Drawing.Point(50, 35);
             this._lblScore.Name = "_lblScore";
             this._lblScore.Size = new System.Drawing.Size(13, 13);
@@ -186,7 +190,8 @@ namespace TetrisReborn {
             // _label1
             // 
             this._label1.AutoSize = true;
-            this._label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this._label1.BackColor = System.Drawing.SystemColors.MenuText;
+            this._label1.ForeColor = System.Drawing.SystemColors.Control;
             this._label1.Location = new System.Drawing.Point(9, 35);
             this._label1.Name = "_label1";
             this._label1.Size = new System.Drawing.Size(39, 13);
@@ -196,7 +201,8 @@ namespace TetrisReborn {
             // _label3
             // 
             this._label3.AutoSize = true;
-            this._label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this._label3.BackColor = System.Drawing.SystemColors.MenuText;
+            this._label3.ForeColor = System.Drawing.SystemColors.Control;
             this._label3.Location = new System.Drawing.Point(9, 54);
             this._label3.Name = "_label3";
             this._label3.Size = new System.Drawing.Size(35, 13);
@@ -206,7 +212,8 @@ namespace TetrisReborn {
             // _lblRows
             // 
             this._lblRows.AutoSize = true;
-            this._lblRows.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this._lblRows.BackColor = System.Drawing.SystemColors.MenuText;
+            this._lblRows.ForeColor = System.Drawing.SystemColors.Control;
             this._lblRows.Location = new System.Drawing.Point(50, 54);
             this._lblRows.Name = "_lblRows";
             this._lblRows.Size = new System.Drawing.Size(13, 13);
@@ -215,7 +222,8 @@ namespace TetrisReborn {
             // 
             // _drawingAreaCanvas
             // 
-            this._drawingAreaCanvas.BackColor = System.Drawing.SystemColors.Window;
+            this._drawingAreaCanvas.BackColor = System.Drawing.SystemColors.MenuText;
+            this._drawingAreaCanvas.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._drawingAreaCanvas.Location = new System.Drawing.Point(12, 81);
             this._drawingAreaCanvas.Name = "_drawingAreaCanvas";
             this._drawingAreaCanvas.Size = new System.Drawing.Size(168, 254);
@@ -224,7 +232,8 @@ namespace TetrisReborn {
             // _label14
             // 
             this._label14.AutoSize = true;
-            this._label14.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this._label14.BackColor = System.Drawing.SystemColors.MenuText;
+            this._label14.ForeColor = System.Drawing.SystemColors.Control;
             this._label14.Location = new System.Drawing.Point(9, 341);
             this._label14.Name = "_label14";
             this._label14.Size = new System.Drawing.Size(63, 13);
@@ -233,50 +242,48 @@ namespace TetrisReborn {
             // 
             // _menuFile
             // 
-            this._menuFile.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this._menuFile.BackColor = System.Drawing.SystemColors.MenuText;
             this._menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                this._menuNewGame,
-                this._menuResetGrid
-            });
-            this._menuFile.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this._menuNewGame,
+            this._menuResetGrid});
+            this._menuFile.ForeColor = System.Drawing.SystemColors.Control;
             this._menuFile.Name = "_menuFile";
             this._menuFile.Size = new System.Drawing.Size(51, 20);
             this._menuFile.Text = "Menu";
             // 
             // _menuNewGame
             // 
-            this._menuNewGame.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this._menuNewGame.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this._menuNewGame.BackColor = System.Drawing.SystemColors.MenuText;
+            this._menuNewGame.ForeColor = System.Drawing.SystemColors.Control;
             this._menuNewGame.Name = "_menuNewGame";
-            this._menuNewGame.Size = new System.Drawing.Size(136, 22);
+            this._menuNewGame.Size = new System.Drawing.Size(152, 22);
             this._menuNewGame.Text = "New Game";
             this._menuNewGame.Click += new System.EventHandler(this.menuNewGame_Click);
             // 
             // _menuResetGrid
             // 
-            this._menuResetGrid.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this._menuResetGrid.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this._menuResetGrid.BackColor = System.Drawing.SystemColors.MenuText;
+            this._menuResetGrid.ForeColor = System.Drawing.SystemColors.Control;
             this._menuResetGrid.Name = "_menuResetGrid";
-            this._menuResetGrid.Size = new System.Drawing.Size(136, 22);
+            this._menuResetGrid.Size = new System.Drawing.Size(152, 22);
             this._menuResetGrid.Text = "Restart";
             this._menuResetGrid.Click += new System.EventHandler(this.menuResetGrid_Click);
             // 
-            // _controlsToolStripMenuItem
+            // _menuControls
             // 
-            this._controlsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this._controlsToolStripMenuItem.Name = "_controlsToolStripMenuItem";
-            this._controlsToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
-            this._controlsToolStripMenuItem.Text = "Controls";
-            this._controlsToolStripMenuItem.Click += new System.EventHandler(this.controlsToolStripMenuItem_Click);
+            this._menuControls.ForeColor = System.Drawing.SystemColors.Control;
+            this._menuControls.Name = "_menuControls";
+            this._menuControls.Size = new System.Drawing.Size(64, 20);
+            this._menuControls.Text = "Controls";
+            this._menuControls.Click += new System.EventHandler(this.MenuControls_click);
             // 
             // _menuStrip1
             // 
-            this._menuStrip1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this._menuStrip1.BackColor = System.Drawing.SystemColors.MenuText;
             this._menuStrip1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this._menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                this._menuFile,
-                this._controlsToolStripMenuItem
-            });
+            this._menuFile,
+            this._menuControls});
             this._menuStrip1.Location = new System.Drawing.Point(0, 0);
             this._menuStrip1.Name = "_menuStrip1";
             this._menuStrip1.Size = new System.Drawing.Size(192, 24);
@@ -286,7 +293,7 @@ namespace TetrisReborn {
             // Form1
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.BackColor = System.Drawing.SystemColors.MenuText;
             this.ClientSize = new System.Drawing.Size(192, 360);
             this.Controls.Add(this._label14);
             this.Controls.Add(this._lblRows);
@@ -295,13 +302,14 @@ namespace TetrisReborn {
             this.Controls.Add(this._label1);
             this.Controls.Add(this._drawingAreaCanvas);
             this.Controls.Add(this._menuStrip1);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular,
-                System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ForeColor = System.Drawing.SystemColors.Control;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this._menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Form1";
+            this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tetris";
@@ -311,6 +319,7 @@ namespace TetrisReborn {
             this._menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
@@ -348,7 +357,7 @@ namespace TetrisReborn {
             if (_isGamePaused) {
                 var gpause = _startScreen.GetGraphics();
                 _startScreen.Erase();
-                gpause.DrawString("Pause", new Font("ComicSans", 18), new SolidBrush(Color.White), 5, 100);
+                gpause.DrawString("Pause", new Font(Retrofont.Families[0], 22), new SolidBrush(Color.White), 5, 100);
                 _startScreen.Flip();
             }
             if (_aBtnClicked) {
@@ -497,7 +506,7 @@ namespace TetrisReborn {
         private void DrawGameOver() {
             var gOver = _startScreen.GetGraphics();
             _startScreen.Erase();
-            gOver.DrawString(_lblScore.Text, new Font("ComicSans", 10), new SolidBrush(Color.White), 40, 100);
+            gOver.DrawString("GAME\nOVER", new Font(Retrofont.Families[0], 22), new SolidBrush(Color.White), 28, 80);
             _startScreen.Flip();
         }
 
@@ -528,10 +537,8 @@ namespace TetrisReborn {
             DrawStart();
         }
 
-        private void controlsToolStripMenuItem_Click(object sender, EventArgs e) {
-            MessageBox.Show(
-                Resources.Form1_controlsToolStripMenuItem_Click_);
+        private void MenuControls_click(object sender, EventArgs e) {
+            MessageBox.Show(Resources.controlText);
         }
-
     }
 }
