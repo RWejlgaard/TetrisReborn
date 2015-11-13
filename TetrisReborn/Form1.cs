@@ -101,11 +101,8 @@ namespace TetrisReborn {
                         break;
                     case "ESCAPE":
                         if (!_isGamePaused) {
-                            // DrawGamePaused();
                             _gameTimer.Stop();
-
                             _isGamePaused = true;
-
                             var gpause = _startScreen.GetGraphics();
                             _startScreen.Erase();
                             gpause.DrawString("Pause", new Font("Comic Sans", 18), new SolidBrush(Color.Red), 46, 100);
