@@ -3,70 +3,15 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using TetrisReborn.Properties;
 
 namespace TetrisReborn {
     public class Form1 : Form {
-
-        #region variables
-
-        private bool _aBtnClicked;
-        private Shape _aShape;
-        private int _bonusHeight;
-        private IContainer components;
-        private ToolStripMenuItem _menuControls;
-        private Panel _drawingAreaCanvas;
-        private bool _dropBtnPressed;
-        private int _dropRate;
-        private GameGrid _gameGrid;
-        private SolidBrush[][] _gameGridBrushes;
-        private int _gameSpeed;
-        private Timer _gameTimer;
-        private bool _isGameOver;
-        private bool _isGamePaused;
-        private bool _isRowFull;
-        private Label _label1;
-        private Label _label14;
-        private Label _label3;
-        private Label _lblRows;
-        private Label _lblScore;
-        private int _level;
-        private int _levelRowsCompleted;
-        private Screen _mainScreen;
-        private ToolStripMenuItem _menuFile;
-        private ToolStripMenuItem _menuNewGame;
-        private ToolStripMenuItem _menuResetGrid;
-        private MenuStrip _menuStrip1;
-        private int _nextShapeType;
-        private int _numberOfCols;
-        private int _numberOfRows;
-        private readonly Random _randomShapeType = new Random();
-
-        private Rectangle _rectangle;
-        private Rectangle[][] _rectangleGameGrid;
-        private Rectangle[] _rectangleShape;
-        private long _score;
-        private int _shapeType;
-
-        private bool _startBtnPressed;
-        private Screen _startScreen;
-        private SolidBrush[] _theBrushColors;
-        public static PrivateFontCollection Retrofont = new PrivateFontCollection();
-        private Panel _titleBar;
-        private int _totalRowsCompleted;
-
-        public bool IsDropped { get; set; }
-        public int BonusStep { get; set; }
-
-        #endregion
-
         public Form1() {
             InitializeComponent();
 
             SetUpGame();
-            
-            
+
 
             Retrofont.AddFontFile("C:\\Users\\Rasmus\\TetrisReborn\\TetrisReborn\\Retro.ttf");
             _aBtnClicked = false;
@@ -77,7 +22,58 @@ namespace TetrisReborn {
             _gameTimer.Enabled = true;
             _gameTimer.Interval = _gameSpeed;
         }
-        
+        #region variables
+
+                private bool _aBtnClicked;
+                private Shape _aShape;
+                private int _bonusHeight;
+                private IContainer components;
+                private ToolStripMenuItem _menuControls;
+                private Panel _drawingAreaCanvas;
+                private bool _dropBtnPressed;
+                private int _dropRate;
+                private GameGrid _gameGrid;
+                private SolidBrush[][] _gameGridBrushes;
+                private int _gameSpeed;
+                private Timer _gameTimer;
+                private bool _isGameOver;
+                private bool _isGamePaused;
+                private bool _isRowFull;
+                private Label _label1;
+                private Label _label14;
+                private Label _label3;
+                private Label _lblRows;
+                private Label _lblScore;
+                private int _level;
+                private int _levelRowsCompleted;
+                private Screen _mainScreen;
+                private ToolStripMenuItem _menuFile;
+                private ToolStripMenuItem _menuNewGame;
+                private ToolStripMenuItem _menuResetGrid;
+                private MenuStrip _menuStrip1;
+                private int _nextShapeType;
+                private int _numberOfCols;
+                private int _numberOfRows;
+                private readonly Random _randomShapeType = new Random();
+
+                private Rectangle _rectangle;
+                private Rectangle[][] _rectangleGameGrid;
+                private Rectangle[] _rectangleShape;
+                private long _score;
+                private int _shapeType;
+
+                private bool _startBtnPressed;
+                private Screen _startScreen;
+                private SolidBrush[] _theBrushColors;
+                public static PrivateFontCollection Retrofont = new PrivateFontCollection();
+                private Panel _titleBar;
+                private int _totalRowsCompleted;
+
+                public bool IsDropped { get; set; }
+                public int BonusStep { get; set; }
+
+        #endregion
+
         private void ClockTick(object sender, EventArgs e) {
             _aBtnClicked = false;
         }
@@ -122,10 +118,10 @@ namespace TetrisReborn {
                                 }
                             }
 
-                            gpause.FillRectangle(new SolidBrush(Color.Black),31,103,105,28 );
-                            gpause.DrawRectangle(new Pen(Color.White, 0.01f),31,103,105,28);
+                            gpause.FillRectangle(new SolidBrush(Color.Black), 31, 103, 105, 28);
+                            gpause.DrawRectangle(new Pen(Color.White, 0.01f), 31, 103, 105, 28);
 
-                            gpause.DrawString("Pause", new Font(Retrofont.Families[0], 18), new SolidBrush(Color.White), 30, 100);
+                            gpause.DrawString("Pause", new Font(Retrofont.Families[0], 18), new SolidBrush(Color.White),30, 100);
 
                             _startScreen.Flip();
                         }
@@ -242,7 +238,6 @@ namespace TetrisReborn {
             // _drawingAreaCanvas
             // 
             this._drawingAreaCanvas.BackColor = System.Drawing.SystemColors.MenuText;
-            this._drawingAreaCanvas.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._drawingAreaCanvas.Location = new System.Drawing.Point(12, 106);
             this._drawingAreaCanvas.Name = "_drawingAreaCanvas";
             this._drawingAreaCanvas.Size = new System.Drawing.Size(168, 254);
@@ -361,9 +356,10 @@ namespace TetrisReborn {
             _rectangleGameGrid = _gameGrid.GetGameGrid();
             _mainScreen.Erase();
 
-            for (var i = 3; i < _mainScreen.ScreenWidth; i+=_mainScreen.ScreenWidth/16) {
-                for (var j = 0; j < _mainScreen.ScreenHeight; j+= _mainScreen.ScreenHeight / 25) {
-                    g.DrawRectangle(new Pen(Color.FromArgb(50, 255, 255, 255), 1),i,j, _mainScreen.ScreenWidth / 16, _mainScreen.ScreenHeight / 25);
+            for (var i = 3; i <= (_mainScreen.ScreenWidth/16)*16; i += _mainScreen.ScreenWidth/16) {
+                for (var j = 0; j <= (_mainScreen.ScreenHeight/25)*24; j += _mainScreen.ScreenHeight/25) {
+                    g.DrawRectangle(new Pen(Color.FromArgb(255, 121, 121, 121), 1), i, j, _mainScreen.ScreenWidth/16,
+                        _mainScreen.ScreenHeight/25);
                 }
             }
 
@@ -371,7 +367,7 @@ namespace TetrisReborn {
                 for (var k = 0; k < _numberOfCols; k++) {
                     if (!_gameGrid.IsGridLocationEmpty(i, k)) {
                         g.FillRectangle(_gameGridBrushes[i][k], _rectangleGameGrid[i][k]);
-                        g.DrawRectangle(new Pen(Color.White, 1), _rectangleGameGrid[i][k]);
+                        g.DrawRectangle(new Pen(Color.FromArgb(255, 0, 0, 0), 1), _rectangleGameGrid[i][k]);
                     }
                 }
             }
@@ -390,8 +386,6 @@ namespace TetrisReborn {
         }
 
         private void GameTimer_Tick(object sender, EventArgs e) {
-            
-
             if (_aBtnClicked) {
             }
             if (_startBtnPressed) {
@@ -508,7 +502,7 @@ namespace TetrisReborn {
             /*if (_gameSpeed > 5) {
                 _gameSpeed -= 20;
             }*/
-            _gameSpeed-=20;
+            _gameSpeed -= 20;
         }
 
         private void SetUpGame() {
@@ -574,16 +568,14 @@ namespace TetrisReborn {
             MessageBox.Show(Resources.controlText);
         }
 
-        private void _titleBar_MouseDown(object sender, MouseEventArgs e)
-        {
-            
+        private void _titleBar_MouseDown(object sender, MouseEventArgs e) {
         }
 
-        private void Form1_MouseDown(object sender, MouseEventArgs e)
-        {
+        private void Form1_MouseDown(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != 0) {
-                
             }
         }
+
+        
     }
 }
