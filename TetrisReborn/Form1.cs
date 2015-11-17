@@ -481,6 +481,7 @@ namespace TetrisReborn {
         }
 
         private void SetUpGame() {
+
             _gameSpeed = 100;
             _bonusHeight = _drawingAreaCanvas.Height - 1;
             _dropRate = 5;
