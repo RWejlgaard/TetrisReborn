@@ -61,11 +61,15 @@ namespace TetrisReborn {
                         SetUpGame();
                         DrawStart();
                         break;
-                    case "E":
-                        Application.Exit();
+                    case "X":
+                        Close();
                         break;
                     case "ESCAPE":
-                        if (!_isGamePaused) {
+                        if (_isGamePaused) {
+                            _gameTimer.Start();
+                            _isGamePaused = false;
+                        }
+                        else {
                             _gameTimer.Stop();
                             _isGamePaused = true;
                             var gpause = _startScreen.GetGraphics();
@@ -73,21 +77,16 @@ namespace TetrisReborn {
 
                             for (var i = 0; i < _numberOfRows; i++) {
                                 for (var k = 0; k < _numberOfCols; k++) {
-                                    gpause.DrawRectangle(new Pen(Color.White, 1), _rectangleGameGrid[i][k]);
+                                    gpause.DrawRectangle(new Pen(Color.White, 0.01f), _rectangleGameGrid[i][k]);
                                 }
                             }
 
                             gpause.FillRectangle(new SolidBrush(Color.Black), 31, 103, 105, 28);
                             gpause.DrawRectangle(new Pen(Color.White, 0.01f), 31, 103, 105, 28);
-
                             gpause.DrawString("Pause", new Font(Retrofont.Families[0], 18), new SolidBrush(Color.White),
                                 30, 100);
 
                             _startScreen.Flip();
-                        }
-                        else {
-                            _gameTimer.Start();
-                            _isGamePaused = false;
                         }
                         break;
                     case "R":
@@ -486,7 +485,7 @@ namespace TetrisReborn {
             _bonusHeight = _drawingAreaCanvas.Height - 1;
             _dropRate = 5;
             _score = 0;
-            _level = 1;
+            _level = 10;
             _levelRowsCompleted = 0;
             _totalRowsCompleted = 0;
             _isGameOver = true;
@@ -519,6 +518,7 @@ namespace TetrisReborn {
                 shapeType = _randomShapeType.Next(6);
             } while (shapeType == 0);
             return shapeType;
+            //return 5;
         }
 
         private void menuNewGame_Click(object sender, EventArgs e) {
